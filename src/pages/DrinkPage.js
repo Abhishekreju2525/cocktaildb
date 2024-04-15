@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import MainContext from "../context/MainContext";
+import Browseletter from "../components/Browseletter";
 
 function DrinkPage() {
   const mainContext = useContext(MainContext);
@@ -14,8 +15,6 @@ function DrinkPage() {
     const response = await fetch(api);
     const data = await response.json();
     setDrinksData(data.drinks[0]);
-
-    // Extract ingredients and measures
     const ingredientsData = Object.keys(data.drinks[0])
       .filter((key) => key.startsWith("strIngredient") && data.drinks[0][key])
       .map((key) => data.drinks[0][key]);
@@ -34,7 +33,7 @@ function DrinkPage() {
       await apiCall();
     }
     fetchData();
-  }, [id]); // Include 'id' in the dependency array
+  }, [id]); 
   if (loading) return "Loading...";
   return (
     <div className="p-8 text-white">
@@ -48,18 +47,18 @@ function DrinkPage() {
           <div className="p-5 flex flex-wrap">
             {ingredients.map((ingredient, index) => {
               return (
-                <div className="w-48 text-wrap p-3 flex flex-col">
+                <Link to={`/ingredient/${ingredient}`} className="w-48 text-wrap p-3 flex flex-col">
                   <img
                     src={`https://www.thecocktaildb.com/images/ingredients/${ingredient}-Medium.png`}
                     alt=""
                     className="h-36"
                   />
-                  <div>
+                  <div className="text-center">
                     {measures[index]}
                     {""}
                     {ingredient}
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>
@@ -73,6 +72,9 @@ function DrinkPage() {
         <div className="text-center ">
           <h2 className="font-medium my-5 text-lg">Glass</h2>
           <p>Serve : {drinksData.strGlass}</p>
+        </div>
+        <div className="text-center">
+          <Browseletter></Browseletter>
         </div>
       </div>
     </div>

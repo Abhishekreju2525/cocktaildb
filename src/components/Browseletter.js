@@ -11,7 +11,7 @@ function Browseletter() {
       {mainContext.alphabets.map((item) => {
         return (
           <>
-            <Link to={`/browse/${item}`}>{item}</Link>
+            <Link to={`/browse/f=${item}`}>{item}</Link>
             &nbsp;&nbsp;
           </>
         );
